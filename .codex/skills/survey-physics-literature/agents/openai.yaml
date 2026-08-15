@@ -1,0 +1,4 @@
+interface:
+  display_name: "Systematic Physics Literature Review"
+  short_description: "Auditable multilingual HEP and gravity reviews"
+  default_prompt: "Use $survey-physics-literature to conduct an auditable HEP/gr-qc literature review and produce the requested Chinese, English, or bilingual LaTeX reports."

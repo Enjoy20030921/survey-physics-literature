@@ -1,0 +1,46 @@
+% Shared XeLaTeX macros for survey-physics-literature reports.
+\usepackage[a4paper,margin=27mm,headheight=15pt]{geometry}
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs,longtable,tabularx,array}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+\definecolor{ReviewNavy}{HTML}{17324D}
+\definecolor{ReviewBlue}{HTML}{2E6F9E}
+\definecolor{ReviewLight}{HTML}{EAF2F8}
+\definecolor{ReviewMuted}{HTML}{5E6C76}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=ReviewNavy,
+  citecolor=ReviewBlue,
+  urlcolor=ReviewBlue,
+  pdfborder={0 0 0}
+}
+
+\setstretch{1.08}
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{0.25em}
+\setlength{\tabcolsep}{5pt}
+\renewcommand{\arraystretch}{1.15}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\small\nouppercase{\leftmark}}
+\fancyfoot[C]{\thepage}
+
+\newcommand{\Evidence}[1]{\textsuperscript{\textcolor{ReviewBlue}{[E:#1]}}}
+\newcommand{\ReviewStatus}[1]{\textcolor{ReviewMuted}{\textsf{#1}}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\AtBeginDocument{\raggedbottom}
