@@ -9,10 +9,11 @@
 [![Reports](https://img.shields.io/badge/%E6%8A%A5%E5%91%8A-zh%20%7C%20en%20%7C%20bilingual-0F766E?style=flat-square)](#报告语言)
 [![Sources](https://img.shields.io/badge/%E6%95%B0%E6%8D%AE%E6%BA%90-arXiv%20%7C%20INSPIRE%20%7C%20Crossref-B31B1B?style=flat-square)](#数据源)
 [![Last commit](https://img.shields.io/github/last-commit/Enjoy20030921/survey-physics-literature?style=flat-square)](https://github.com/Enjoy20030921/survey-physics-literature/commits/main)
+[![License: MIT](https://img.shields.io/badge/license-MIT-2563EB?style=flat-square)](LICENSE)
 
 [English](README.md) · [简体中文](README.zh-CN.md)
 
-[为什么使用它？](#为什么使用它) · [快速开始](#快速开始) · [工作流](#工作流) · [输出](#输出) · [命令行](#维护者命令行) · [常见问题](#常见问题)
+[为什么使用它？](#为什么使用它) · [快速开始](#快速开始) · [工作流](#工作流) · [输出](#输出) · [命令行](#维护者命令行) · [常见问题](#常见问题) · [许可证](#许可证)
 
 </div>
 
@@ -373,6 +374,10 @@ Skill 会记录无法访问的全文，但不会绕过访问控制。用户可�
 - 自动规范化和去重可以复核，但并非绝对无误。
 - 引用扩展可能带来领域偏差或作者网络偏差，必须如实记录。
 - 最终综合仍需要物理学领域判断；确定性脚本支持判断，但不能替代判断。
+
+## 许可证
+
+本项目采用 [MIT License](LICENSE) 发布。你可以在遵守许可证条款的前提下使用、修改和分发本项目。版本历史见 [CHANGELOG](CHANGELOG.md)。
 
 ---
 
