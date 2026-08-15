@@ -9,10 +9,11 @@
 [![Reports](https://img.shields.io/badge/reports-zh%20%7C%20en%20%7C%20bilingual-0F766E?style=flat-square)](#report-languages)
 [![Sources](https://img.shields.io/badge/sources-arXiv%20%7C%20INSPIRE%20%7C%20Crossref-B31B1B?style=flat-square)](#data-sources)
 [![Last commit](https://img.shields.io/github/last-commit/Enjoy20030921/survey-physics-literature?style=flat-square)](https://github.com/Enjoy20030921/survey-physics-literature/commits/main)
+[![License: MIT](https://img.shields.io/badge/license-MIT-2563EB?style=flat-square)](LICENSE)
 
 [English](README.md) · [简体中文](README.zh-CN.md)
 
-[Why this Skill?](#why-this-skill) · [Quick start](#quick-start) · [Workflow](#workflow) · [Outputs](#outputs) · [CLI](#maintainer-cli) · [FAQ](#faq)
+[Why this Skill?](#why-this-skill) · [Quick start](#quick-start) · [Workflow](#workflow) · [Outputs](#outputs) · [CLI](#maintainer-cli) · [FAQ](#faq) · [License](#license)
 
 </div>
 
@@ -373,6 +374,10 @@ It records inaccessible full text but never bypasses access controls. A user may
 - Automated normalization and deduplication remain reviewable, not infallible.
 - Citation expansion can introduce field or author-network bias and must be documented.
 - Final synthesis still requires physics judgment; deterministic scripts support that judgment but do not replace it.
+
+## License
+
+Released under the [MIT License](LICENSE). You may use, modify, and distribute the project subject to the license terms. See the [changelog](CHANGELOG.md) for version history.
 
 ---
 
