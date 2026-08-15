@@ -1,98 +1,104 @@
+<div align="center">
+
 # Systematic Physics Literature Review
 
-[English](README.md) | [简体中文](README.zh-CN.md)
+**Auditable HEP and gravity literature reviews for Codex**
 
-An auditable Codex Skill for systematic and updateable literature reviews in high-energy physics and gravitational physics, especially `hep-*` and `gr-qc` research.
+[![Codex Skill](https://img.shields.io/badge/Codex-Skill-111827?style=flat-square)](https://learn.chatgpt.com/docs/build-skills)
+[![Python](https://img.shields.io/badge/Python-standard%20library-3776AB?style=flat-square&logo=python&logoColor=white)](.codex/skills/survey-physics-literature/scripts)
+[![Reports](https://img.shields.io/badge/reports-zh%20%7C%20en%20%7C%20bilingual-0F766E?style=flat-square)](#report-languages)
+[![Sources](https://img.shields.io/badge/sources-arXiv%20%7C%20INSPIRE%20%7C%20Crossref-B31B1B?style=flat-square)](#data-sources)
+[![Last commit](https://img.shields.io/github/last-commit/Enjoy20030921/survey-physics-literature?style=flat-square)](https://github.com/Enjoy20030921/survey-physics-literature/commits/main)
 
-The Skill combines bilingual intent handling, reproducible metadata retrieval, full-text evidence tracking, incremental updates, and Chinese or English LaTeX reporting. Report structure is adaptive: the research question and evidence determine the outline instead of a fixed chapter template.
+[English](README.md) · [简体中文](README.zh-CN.md)
 
-## Highlights
+[Why this Skill?](#why-this-skill) · [Quick start](#quick-start) · [Workflow](#workflow) · [Outputs](#outputs) · [CLI](#maintainer-cli) · [FAQ](#faq)
 
-- Triggers from equivalent Chinese and English review requests.
-- Supports new reviews, seed-paper citation expansion, and incremental updates.
-- Searches arXiv and INSPIRE, then enriches DOI and journal metadata with Crossref.
-- Uses deterministic Python standard-library scripts for retrieval, caching, parsing, deduplication, export, and validation.
-- Deduplicates by normalized DOI, version-independent arXiv ID, and INSPIRE recid before title-author-year similarity.
-- Separates abstract screening from full-text evidence extraction.
-- Requires a section, page, equation, figure, or table locator for substantive claims.
-- Preserves stable record IDs, evidence IDs, screening decisions, and BibTeX keys across updates.
-- Generates Chinese, English, or separate evidence-equivalent bilingual reports.
-- Compiles with XeLaTeX and BibTeX when those tools are available.
-- Keeps the report hierarchy adaptive rather than prescribing universal chapters.
+</div>
 
-The methodology is PRISMA-inspired and auditable, but it does not claim formal PRISMA 2020 compliance.
+Turn a physics question into a reproducible search, screened corpus, locator-backed evidence matrix, and publication-ready report. The Skill is designed for high-energy physics and gravitational physics, especially `hep-*` and `gr-qc` research.
 
-## Intended use
+> [!NOTE]
+> The methodology is PRISMA-inspired and audit-oriented. It does **not** claim formal PRISMA 2020 compliance.
 
-Use this Skill for requests such as:
+## Why this Skill?
 
-- systematic physics literature reviews;
-- research-landscape and progress surveys;
-- finding related papers across HEP or `gr-qc`;
-- expanding a review from seed papers;
-- updating an existing review directory;
-- comparing agreements, contradictions, assumptions, limitations, and research gaps.
+| Review problem | What the Skill does |
+| --- | --- |
+| One paper may have arXiv, DOI, INSPIRE, and journal identities | Deduplicates by normalized DOI, version-independent arXiv ID, and INSPIRE recid before similarity matching |
+| Abstracts are often overinterpreted | Uses abstracts for screening only; substantive claims require a full-text locator |
+| Bilingual reports can drift scientifically | Uses one shared evidence base while writing two independent, evidence-equivalent reports |
+| Updates can break citations and screening histories | Preserves stable record IDs, evidence IDs, screening decisions, and BibTeX keys |
+| Fixed chapter templates distort different research questions | Derives the report hierarchy from the question, evidence topology, audience, and report scale |
 
-It should not activate for an isolated physics calculation or a summary of one paper unless the request explicitly expands into a broader literature review.
+### At a glance
 
-## Installation
+| | |
+| --- | --- |
+| **Review modes** | New systematic review · seed-paper expansion · incremental update |
+| **Primary scope** | HEP and gravity, including `hep-th`, `hep-ph`, `hep-ex`, `hep-lat`, and `gr-qc` |
+| **Report languages** | Chinese · English · separate bilingual reports |
+| **Data operations** | Deterministic Python standard-library scripts |
+| **Report toolchain** | XeLaTeX + BibTeX, with explicit diagnostics when unavailable |
+| **Access policy** | Lawful full text only; never bypass access controls |
 
-This repository keeps the authored Skill at:
+## Quick start
+
+### 1. Install the Skill
+
+This repository preserves the authored Skill at:
 
 ```text
 .codex/skills/survey-physics-literature/
 ```
 
-Current OpenAI documentation lists `.agents/skills/` as the local discovery location for standalone Codex Skills. Copy the Skill directory into a repository-scoped location:
+Current [OpenAI Build skills documentation](https://learn.chatgpt.com/docs/build-skills) lists `.agents/skills/` as the local discovery location for standalone Codex Skills. Copy the directory into your project:
 
 ```text
 <your-project>/.agents/skills/survey-physics-literature/
 ```
 
-For example, after cloning this repository:
+<details>
+<summary><strong>macOS / Linux</strong></summary>
 
 ```bash
-mkdir -p <your-project>/.agents/skills
+git clone --depth 1 https://github.com/Enjoy20030921/survey-physics-literature.git
+mkdir -p /path/to/your-project/.agents/skills
 cp -R survey-physics-literature/.codex/skills/survey-physics-literature \
-  <your-project>/.agents/skills/
+  /path/to/your-project/.agents/skills/
 ```
 
-PowerShell:
+</details>
+
+<details>
+<summary><strong>Windows PowerShell</strong></summary>
 
 ```powershell
-New-Item -ItemType Directory -Force <your-project>\.agents\skills
+git clone --depth 1 https://github.com/Enjoy20030921/survey-physics-literature.git
+New-Item -ItemType Directory -Force C:\path\to\your-project\.agents\skills
 Copy-Item -Recurse survey-physics-literature\.codex\skills\survey-physics-literature `
-  <your-project>\.agents\skills\survey-physics-literature
+  C:\path\to\your-project\.agents\skills\survey-physics-literature
 ```
 
-Codex detects Skill changes automatically in supported discovery locations. Restart Codex if the Skill does not appear. See [OpenAI's Build skills documentation](https://learn.chatgpt.com/docs/build-skills) for the current discovery and invocation behavior.
+</details>
 
-## Invocation
+Codex detects Skill changes automatically in supported discovery locations. Restart Codex if the Skill does not appear.
 
-Invoke the Skill explicitly:
+### 2. Invoke it
+
+Use an explicit mention:
 
 ```text
 $survey-physics-literature
 ```
 
-Codex can also invoke it implicitly when the request matches the bilingual description in `SKILL.md`.
+Or ask naturally in Chinese or English. The bilingual description in [`SKILL.md`](.codex/skills/survey-physics-literature/SKILL.md) supports implicit invocation.
 
-Chinese example:
-
-```text
-请使用 $survey-physics-literature 调研黑洞信息问题中的岛公式。
-研究问题：岛公式在半经典引力中解决 Page curve 问题的证据、假设和主要争议是什么？
-arXiv 分类：hep-th, gr-qc
-时间范围：all-time
-纳入：原创论文、综述、讲义和相关会议论文
-排除：只在摘要中提及 island、但正文没有实质讨论的文献
-报告语言：中文
-```
-
-English example:
+### 3. Supply a review protocol
 
 ```text
 Use $survey-physics-literature to review the island formula in the black-hole information problem.
+
 Research question: What evidence, assumptions, and major disputes surround the island formula and the Page curve in semiclassical gravity?
 arXiv categories: hep-th, gr-qc
 Date range: all-time
@@ -101,88 +107,144 @@ Exclude: papers that mention islands only in the abstract without substantive fu
 Report language: English
 ```
 
+<details>
+<summary><strong>Chinese prompt example</strong></summary>
+
+```text
+请使用 $survey-physics-literature 调研黑洞信息问题中的岛公式。
+
+研究问题：岛公式在半经典引力中解决 Page curve 问题的证据、假设和主要争议是什么？
+arXiv 分类：hep-th, gr-qc
+时间范围：all-time
+纳入：原创论文、综述、讲义和相关会议论文
+排除：只在摘要中提及 island、但正文没有实质讨论的文献
+报告语言：中文
+```
+
+</details>
+
+## When to use it
+
+| Use the Skill for | Do not use it for |
+| --- | --- |
+| Systematic or scoped physics literature reviews | An isolated physics calculation |
+| Research-landscape and progress surveys | A one-paper summary with no expansion request |
+| Finding related HEP or `gr-qc` papers | Unsupported claims based only on snippets or abstracts |
+| Citation expansion from seed papers | Bypassing paywalls or authentication |
+| Updating an existing review directory | Mechanically translating one report into another |
+| Comparing agreements, contradictions, assumptions, and gaps | Claiming formal PRISMA compliance |
+
 ## Review settings
 
-| Setting | Required | Description |
-| --- | --- | --- |
-| Research question | Yes | A focused, answerable physics question. |
-| arXiv categories | Yes | One or more categories such as `hep-th`, `hep-ph`, or `gr-qc`. |
-| Date range | Yes | An explicit range or `all-time`. |
-| Inclusion criteria | Yes | Eligible document types, systems, methods, and scope. |
-| Exclusion criteria | Yes | Explicit reasons for rejecting otherwise related works. |
-| Seed-paper identifiers | No | arXiv IDs, DOIs, or INSPIRE recids for citation expansion. |
-| User search terms | No | Concepts, names, observables, or alternate terminology. |
-| Existing review directory | No | Enables an incremental update that preserves stable identifiers. |
-| `report_language` | No | `zh`, `en`, or `bilingual`; the Skill asks once if unspecified and otherwise falls back to `bilingual`. |
+### Required
 
-Accepted language labels include `中文`, `英文`, `中英双语`, `Chinese`, `English`, and `bilingual`. The normalized value is recorded in `protocol.json`.
+| Setting | Purpose |
+| --- | --- |
+| Research question | Defines the physics problem the synthesis must answer |
+| arXiv categories | Constrains the disciplinary search space |
+| Date range or `all-time` | Makes temporal coverage explicit |
+| Inclusion criteria | Defines eligible document types, systems, methods, and scope |
+| Exclusion criteria | Makes rejection decisions reproducible |
+
+### Optional
+
+| Setting | Purpose |
+| --- | --- |
+| Seed-paper identifiers | Expands from arXiv IDs, DOIs, or INSPIRE recids |
+| User search terms | Adds concepts, observables, names, and alternate terminology |
+| Existing review directory | Enables stable incremental updates |
+| `report_language` | Chooses `zh`, `en`, or `bilingual` |
+
+### Report languages
+
+| Normalized value | Accepted examples | Output |
+| --- | --- | --- |
+| `zh` | `中文`, `Chinese`, `zh` | Chinese report only |
+| `en` | `英文`, `English`, `en` | English report only |
+| `bilingual` | `中英双语`, `bilingual` | Two complete, separate reports |
+
+If the language is unspecified, the Skill asks once. If no answer is available, it falls back to `bilingual`. The normalized choice is stored in `protocol.json` and retained during updates unless explicitly overridden.
 
 ## Workflow
 
 ```mermaid
-flowchart LR
-    A[Parse bilingual intent] --> B[Freeze protocol]
-    B --> C[Expand concepts and queries]
-    C --> D[Search arXiv and INSPIRE]
-    D --> E[Enrich with Crossref]
-    E --> F[Normalize and deduplicate]
-    F --> G[Screen titles and abstracts]
-    G --> H[Retrieve lawful full text]
-    H --> I[Full-text screening and citation expansion]
-    I --> J[Build evidence matrix]
-    J --> K[Adaptive synthesis]
-    K --> L[Audit citations and compile requested reports]
+flowchart TD
+    A["Bilingual intent + review settings"] --> B["Frozen protocol"]
+    B --> C["Concept expansion + exact queries"]
+    C --> D["arXiv + INSPIRE search"]
+    D --> E["Crossref enrichment"]
+    E --> F["Normalize + deduplicate"]
+    F --> G["Title and abstract screening"]
+    G --> H["Lawful full text + citation expansion"]
+    H --> I["Evidence matrix with precise locators"]
+    I --> J["Adaptive synthesis"]
+    J --> K["Citation audit + requested TeX/PDF reports"]
+
+    classDef protocol fill:#e0f2fe,stroke:#0369a1,color:#0c4a6e;
+    classDef sources fill:#fef3c7,stroke:#b45309,color:#78350f;
+    classDef evidence fill:#dcfce7,stroke:#15803d,color:#14532d;
+    classDef output fill:#ede9fe,stroke:#7c3aed,color:#4c1d95;
+    class A,B,C protocol;
+    class D,E,F sources;
+    class G,H,I evidence;
+    class J,K output;
 ```
 
-The Skill uses abstracts only for screening. Substantive report claims must map to a full-text evidence record and a precise locator.
+### Evidence contract
+
+Every material synthesis statement follows a traceable chain:
+
+```text
+report claim -> evidence ID -> record ID -> full-text locator -> citation
+```
+
+Acceptable locators include a section, page, equation, figure, or table. Search snippets, metadata pages, and abstracts are not treated as full-text evidence.
 
 ## Outputs
 
-Each review is stored under `literature-reviews/<topic-slug>/` and includes:
+Each review lives under `literature-reviews/<topic-slug>/`.
 
-```text
-references.bib
-protocol.json
-records.jsonl
-screening.csv
-evidence.csv
-search_runs.jsonl
-update_summary.md
-fulltext/
-  manifest.jsonl
-```
+| Layer | Files |
+| --- | --- |
+| Protocol | `protocol.json` |
+| Corpus | `records.jsonl`, `screening.csv` |
+| Evidence | `evidence.csv`, `references.bib` |
+| Provenance | `search_runs.jsonl`, `fulltext/manifest.jsonl` |
+| Update history | `update_summary.md`, archived obsolete outputs under `runs/` |
+| Optional report components | generated search summaries, selection flows, and included-study tables |
 
-Language-dependent outputs are exact:
+Language-dependent files are exact:
 
-| Mode | Generated reports |
+| Mode | TeX/PDF outputs |
 | --- | --- |
 | `zh` | `report_zh.tex`, `report_zh.pdf` |
 | `en` | `report_en.tex`, `report_en.pdf` |
 | `bilingual` | Both complete TeX/PDF pairs |
 
-Changing the language mode archives obsolete report variants so stale outputs are not mistaken for current results.
+Changing the language mode archives obsolete report variants so stale files cannot be mistaken for current output.
 
-## Adaptive report structure
+## Adaptive report architecture
 
-The Skill does not impose a fixed list of chapters. It chooses a conceptual, methodological, chronological, comparative, controversy-led, or other suitable structure after examining the question, evidence clusters, audience, and report scale.
+There is no universal chapter list. The Skill may organize a review conceptually, methodologically, chronologically, comparatively, around controversies, or with another structure justified by the evidence.
 
-Scope, search provenance, evidence-backed synthesis, disagreement, uncertainty, limitations, citations, and auditability remain content obligations. They may be integrated into the main text, combined, renamed, moved to appendices, or retained in external audit files as appropriate.
+Scope, search provenance, evidence-backed synthesis, disagreement, uncertainty, limitations, citations, and auditability remain **content obligations**, not required headings. Generated audit fragments are optional building blocks rather than mandatory appendices.
 
-Generated search summaries, selection flows, and included-study tables are optional LaTeX fragments rather than mandatory appendices.
+## Data sources
 
-## Data sources and access policy
+| Source | Role |
+| --- | --- |
+| [arXiv API](https://info.arxiv.org/help/api/user-manual.html) | Primary preprint discovery and metadata |
+| [INSPIRE REST API](https://github.com/inspirehep/rest-api-doc) | Primary HEP metadata, records, and citation relationships |
+| [Crossref REST API](https://support.crossref.org/hc/en-us/articles/214320426-REST-API) | DOI and journal-publication enrichment |
 
-- [arXiv API](https://info.arxiv.org/help/api/user-manual.html) is a primary preprint source.
-- [INSPIRE REST API](https://github.com/inspirehep/rest-api-doc) is a primary HEP metadata and citation source.
-- [Crossref REST API](https://support.crossref.org/hc/en-us/articles/214320426-REST-API) enriches DOI and publication metadata.
+The retrieval layer uses caching, request spacing, retry handling, and source-level provenance. It downloads only lawfully accessible full text and never bypasses login, paywalls, or access controls.
 
-The retrieval layer uses caching, request spacing, retry handling, and source-specific provenance. It downloads only lawfully accessible full text and never bypasses authentication, paywalls, or access controls.
+## Maintainer CLI
 
-## Deterministic command-line tools
+The deterministic scripts maintain reproducible data operations. They do not make scientific inclusion decisions or write the final synthesis.
 
-The scripts do not make scientific inclusion decisions or write the synthesis. They maintain reproducible data operations around those review judgments.
-
-Initialize a review:
+<details>
+<summary><strong>Initialize and retrieve a review</strong></summary>
 
 ```bash
 python .codex/skills/survey-physics-literature/scripts/literature_pipeline.py init \
@@ -195,7 +257,7 @@ python .codex/skills/survey-physics-literature/scripts/literature_pipeline.py in
   --language en
 ```
 
-After freezing exact queries in `protocol.json`:
+Freeze the exact arXiv and INSPIRE queries in `protocol.json`, then run:
 
 ```bash
 python .codex/skills/survey-physics-literature/scripts/literature_pipeline.py search literature-reviews/island-formula
@@ -203,7 +265,10 @@ python .codex/skills/survey-physics-literature/scripts/literature_pipeline.py do
 python .codex/skills/survey-physics-literature/scripts/literature_pipeline.py render-audit literature-reviews/island-formula
 ```
 
-Audit and compile:
+</details>
+
+<details>
+<summary><strong>Audit and compile reports</strong></summary>
 
 ```bash
 python .codex/skills/survey-physics-literature/scripts/audit_review.py literature-reviews/island-formula --require-reports
@@ -211,21 +276,25 @@ python .codex/skills/survey-physics-literature/scripts/compile_reports.py litera
 python .codex/skills/survey-physics-literature/scripts/audit_review.py literature-reviews/island-formula --require-reports --require-pdfs
 ```
 
-If XeLaTeX or BibTeX is unavailable, the compiler leaves valid sources in place and returns an explicit diagnostic. It does not install a TeX distribution automatically.
+Compilation uses XeLaTeX -> BibTeX -> XeLaTeX x2. If XeLaTeX or BibTeX is unavailable, valid sources remain in place and the script returns an explicit diagnostic; it never installs a TeX distribution automatically.
 
-## Validation
+</details>
 
-Run the offline regression suite:
+<details>
+<summary><strong>Run validation</strong></summary>
 
 ```bash
 python -B .codex/skills/survey-physics-literature/scripts/test_skill_scripts.py
 ```
 
-The tests cover language normalization, bilingual triggers, arXiv and INSPIRE parsing, old arXiv identifiers, collaboration authors, Unicode, deduplication, caching, HTTP 429 retries, conditional language outputs, and audit failures.
+The offline suite covers language normalization, bilingual triggers, arXiv and INSPIRE parsing, old arXiv identifiers, collaboration authors, Unicode, deduplication, caching, HTTP 429 retries, conditional report outputs, and audit failures.
 
-The Skill has also been validated with the official `quick_validate.py` checker and representative XeLaTeX -> BibTeX -> XeLaTeX x2 builds for Chinese and English reports.
+The Skill also passes the official `quick_validate.py` checker and representative Chinese and English XeLaTeX/BibTeX builds.
 
-## Repository layout
+</details>
+
+<details>
+<summary><strong>Repository layout</strong></summary>
 
 ```text
 .codex/skills/survey-physics-literature/
@@ -248,15 +317,57 @@ The Skill has also been validated with the official `quick_validate.py` checker 
     └── test_skill_scripts.py
 ```
 
+</details>
+
+## FAQ
+
+<details>
+<summary><strong>Does the Skill require a fixed report outline?</strong></summary>
+
+No. It selects a structure that fits the question and evidence. Methodological and audit information must remain available, but it does not need to appear under prescribed chapter names.
+
+</details>
+
+<details>
+<summary><strong>Can abstracts support scientific claims?</strong></summary>
+
+No. Abstracts are used for screening. Substantive claims require a locator in lawfully accessed full text.
+
+</details>
+
+<details>
+<summary><strong>Are bilingual reports translations of one another?</strong></summary>
+
+No. They share bibliography keys, evidence IDs, scientific coverage, and screening totals, but each report is written naturally and independently.
+
+</details>
+
+<details>
+<summary><strong>Is a TeX installation mandatory?</strong></summary>
+
+Only for PDF compilation. The data workflow and valid `.tex` sources remain usable without XeLaTeX or BibTeX.
+
+</details>
+
+<details>
+<summary><strong>Can the Skill retrieve paywalled papers?</strong></summary>
+
+It records inaccessible full text but never bypasses access controls. A user may provide a lawfully obtained local copy for evidence extraction.
+
+</details>
+
 ## Scientific and operational limits
 
-- Search coverage is broad but cannot guarantee discovery of every relevant work.
-- Metadata services may be incomplete, delayed, or temporarily unavailable.
-- Abstracts are insufficient evidence for substantive scientific claims.
-- Full-text retrieval depends on lawful availability.
-- Automated normalization and deduplication must remain auditable and reviewable.
-- The final synthesis still requires domain judgment; deterministic scripts support that judgment but do not replace it.
+- No search can guarantee discovery of every relevant paper.
+- Metadata services may be incomplete, delayed, rate-limited, or temporarily unavailable.
+- Automated normalization and deduplication remain reviewable, not infallible.
+- Citation expansion can introduce field or author-network bias and must be documented.
+- Final synthesis still requires physics judgment; deterministic scripts support that judgment but do not replace it.
 
-## Acknowledgements
+---
 
-This Skill follows OpenAI's progressive-disclosure design for reusable workflows and uses the official arXiv, INSPIRE, and Crossref interfaces for literature metadata.
+<div align="center">
+
+Built around traceable evidence, lawful access, and adaptable scientific writing.
+
+</div>
