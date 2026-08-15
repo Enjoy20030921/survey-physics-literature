@@ -168,26 +168,36 @@ Report language: English
 ## 工作流
 
 ```mermaid
-flowchart TD
-    A["中英文意图 + 调研设置"] --> B["冻结调研协议"]
-    B --> C["概念扩展 + 精确检索式"]
-    C --> D["检索 arXiv + INSPIRE"]
-    D --> E["Crossref 元数据补全"]
-    E --> F["规范化 + 去重"]
-    F --> G["标题与摘要筛选"]
-    G --> H["合法全文 + 引用扩展"]
-    H --> I["带精确定位的证据矩阵"]
-    I --> J["自适应综合"]
-    J --> K["引用审计 + 所需 TeX/PDF 报告"]
+flowchart LR
+    subgraph P["1 · 协议"]
+        direction TB
+        A["意图 + 调研设置"] --> B["冻结调研协议"]
+    end
+    subgraph D["2 · 发现"]
+        direction TB
+        C["概念 + 检索式"] --> D1["arXiv + INSPIRE"] --> E["Crossref + 去重"]
+    end
+    subgraph V["3 · 评估"]
+        direction TB
+        F["标题 + 摘要筛选"] --> G["全文 + 引用扩展"] --> H["带定位的证据矩阵"]
+    end
+    subgraph R["4 · 交付"]
+        direction TB
+        I["自适应综合"] --> J["审计 + TeX/PDF"]
+    end
+
+    B --> C
+    E --> F
+    H --> I
 
     classDef protocol fill:#e0f2fe,stroke:#0369a1,color:#0c4a6e;
     classDef sources fill:#fef3c7,stroke:#b45309,color:#78350f;
     classDef evidence fill:#dcfce7,stroke:#15803d,color:#14532d;
     classDef output fill:#ede9fe,stroke:#7c3aed,color:#4c1d95;
-    class A,B,C protocol;
-    class D,E,F sources;
-    class G,H,I evidence;
-    class J,K output;
+    class A,B protocol;
+    class C,D1,E sources;
+    class F,G,H evidence;
+    class I,J output;
 ```
 
 ### 证据契约

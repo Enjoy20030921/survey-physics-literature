@@ -168,26 +168,36 @@ If the language is unspecified, the Skill asks once. If no answer is available, 
 ## Workflow
 
 ```mermaid
-flowchart TD
-    A["Bilingual intent + review settings"] --> B["Frozen protocol"]
-    B --> C["Concept expansion + exact queries"]
-    C --> D["arXiv + INSPIRE search"]
-    D --> E["Crossref enrichment"]
-    E --> F["Normalize + deduplicate"]
-    F --> G["Title and abstract screening"]
-    G --> H["Lawful full text + citation expansion"]
-    H --> I["Evidence matrix with precise locators"]
-    I --> J["Adaptive synthesis"]
-    J --> K["Citation audit + requested TeX/PDF reports"]
+flowchart LR
+    subgraph P["1 · Plan"]
+        direction TB
+        A["Intent + settings"] --> B["Frozen protocol"]
+    end
+    subgraph D["2 · Discover"]
+        direction TB
+        C["Concepts + queries"] --> D1["arXiv + INSPIRE"] --> E["Crossref + dedupe"]
+    end
+    subgraph V["3 · Evaluate"]
+        direction TB
+        F["Title + abstract screen"] --> G["Full text + citations"] --> H["Locator-backed evidence"]
+    end
+    subgraph R["4 · Deliver"]
+        direction TB
+        I["Adaptive synthesis"] --> J["Audit + TeX/PDF"]
+    end
+
+    B --> C
+    E --> F
+    H --> I
 
     classDef protocol fill:#e0f2fe,stroke:#0369a1,color:#0c4a6e;
     classDef sources fill:#fef3c7,stroke:#b45309,color:#78350f;
     classDef evidence fill:#dcfce7,stroke:#15803d,color:#14532d;
     classDef output fill:#ede9fe,stroke:#7c3aed,color:#4c1d95;
-    class A,B,C protocol;
-    class D,E,F sources;
-    class G,H,I evidence;
-    class J,K output;
+    class A,B protocol;
+    class C,D1,E sources;
+    class F,G,H evidence;
+    class I,J output;
 ```
 
 ### Evidence contract
